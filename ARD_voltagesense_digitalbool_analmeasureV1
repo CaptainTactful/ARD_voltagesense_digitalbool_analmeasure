@@ -1,0 +1,190 @@
+
+
+// this constant won't change:
+const int buttonPin = 7;  // the pin that the pushbutton is attached to
+const int ledPin = 13;    // the pin that the LED is attached to
+
+// Variables will change:
+int buttonPushCounter = 0;  // counter for the number of button presses
+int buttonState = 0;        // current state of the button
+int lastButtonState = 0;    // previous state of the button
+
+// Define analog input
+#define ANALOG_IN_PIN0 A0
+#define ANALOG_IN_PIN1 A1
+#define ANALOG_IN_PIN2 A2
+#define ANALOG_IN_PIN3 A3
+#define ANALOG_IN_PIN4 A4
+#define ANALOG_IN_PIN5 A5
+ 
+// Floats for ADC voltage & Input voltage
+float adc_voltage0 = 0.0;
+float adc_voltage1 = 0.0;
+float adc_voltage2 = 0.0;
+float adc_voltage3 = 0.0;
+float adc_voltage4 = 0.0;
+float adc_voltage5 = 0.0;
+float in_voltage0 = 0.0;
+float in_voltage1 = 0.0;
+float in_voltage2 = 0.0;
+float in_voltage3 = 0.0;
+float in_voltage4 = 0.0;
+float in_voltage5 = 0.0;
+ 
+// Floats for resistor values in divider (in ohms)
+float R1 = 30000.0;
+float R2 = 7500.0; 
+ 
+// Float for Reference Voltage
+float ref_voltage = 5.0;
+ 
+// Integer for ADC value
+int adc_value0 = 0;
+int adc_value1 = 0;
+int adc_value2 = 0;
+int adc_value3 = 0;
+int adc_value4 = 0;
+int adc_value5 = 0;
+
+// Determine voltage at ADC input
+/*adc_voltage0  = (adc_value0 * ref_voltage) / 1024.0;
+adc_voltage1  = (adc_value1 * ref_voltage) / 1024.0;
+adc_voltage2  = (adc_value2 * ref_voltage) / 1024.0;
+adc_voltage3  = (adc_value3 * ref_voltage) / 1024.0;
+adc_voltage4  = (adc_value4 * ref_voltage) / 1024.0;
+adc_voltage5  = (adc_value5 * ref_voltage) / 1024.0;
+ 
+// Calculate voltage at divider input
+in_voltage0 = adc_voltage0*(R1+R2)/R2;
+in_voltage1 = adc_voltage1*(R1+R2)/R2;
+in_voltage2 = adc_voltage2*(R1+R2)/R2;
+in_voltage3 = adc_voltage3*(R1+R2)/R2;
+in_voltage4 = adc_voltage4*(R1+R2)/R2;
+in_voltage5 = adc_voltage5*(R1+R2)/R2;
+*/
+
+void setup() {
+  // initialize the button pin as a input:
+  pinMode(buttonPin, INPUT);
+  // initialize the LED as an output:
+  pinMode(ledPin, OUTPUT);
+  // initialize serial communication:
+  Serial.begin(9600);
+}
+
+
+void loop() { // functions, like serial.print, outside statements, like if..else, will continue to loop
+  // read the pushbutton input pin:
+  buttonState = digitalRead(buttonPin);
+adc_value0 = analogRead(ANALOG_IN_PIN0);
+adc_voltage0  = (adc_value0 * ref_voltage) / 1024.0;
+in_voltage0 = adc_voltage0*(R1+R2)/R2;
+
+  // Read the Analog Input
+ // adc_value0 = analogRead(ANALOG_IN_PIN0);
+/*  adc_value1 = analogRead(ANALOG_IN_PIN1);
+  adc_value2 = analogRead(ANALOG_IN_PIN2);
+  adc_value3 = analogRead(ANALOG_IN_PIN3);
+  adc_value4 = analogRead(ANALOG_IN_PIN4);
+  adc_value5 = analogRead(ANALOG_IN_PIN5);
+  */
+
+  
+  // Print results to Serial Monitor to 2 decimal places
+// printf("%2d\n", 1234%100); DOESN'T work. Decimal places are determined by the integer after the 'serial.print input_voltage_0
+  // CIRCUIT 1
+//  Serial.print("V0=");
+  //Serial.print(in_voltage0, 2);
+/*  if (in_voltage0 > 12){
+    Serial.print(" C1ON ");
+  }
+  if (in_voltage0 < 12){ 
+    Serial.print(" C1OFF ");
+  }
+   // delay(250);
+// CIRCUIT 2
+    Serial.print("V1=");
+  Serial.print(in_voltage1, 0);
+  if (in_voltage1 > 12){
+    Serial.print(" C2ON ");
+  }
+  if (in_voltage1 < 12){ 
+    Serial.print(" C2OFF ");
+  }
+   // delay(250);
+  // CIRCUIT 3
+    Serial.print("V2=");
+  Serial.print(in_voltage2, 0);
+  if (in_voltage2 > 12){
+    Serial.print(" C3ON ");
+  }
+  if (in_voltage2 < 12){ 
+    Serial.print(" C3OFF ");
+  }
+  // CIRCUIT 4
+   // delay(250);
+    Serial.print("V3=");
+  Serial.print(in_voltage3, 0);
+  if (in_voltage3 > 12){
+    Serial.print(" C4ON ");
+  }
+  if (in_voltage3 < 12){ 
+    Serial.print(" C4OFF ");
+  }
+   // delay(250);
+  // CIRCUIT 5
+    Serial.print("V4=");
+  Serial.print(in_voltage4, 0);
+  if (in_voltage4 > 12){
+    Serial.print(" C5ON ");
+  }
+  if (in_voltage4 < 12){ 
+    Serial.print(" C5OFF ");
+  }
+   // delay(250);
+  //CIRCUIT 6
+    Serial.print("V5=");
+  Serial.print(in_voltage5, 0);
+  if (in_voltage5 > 12){
+    Serial.print(" C6ON ");
+  }
+  if (in_voltage5 < 12){ 
+    Serial.println(" C6OFF ");
+  }*/
+  // compare the buttonState to its previous state
+  if (buttonState != lastButtonState) {
+    // if the state has changed, increment the counter
+    if (buttonState == HIGH) {
+      // if the current state is HIGH then the button went from off to on:
+      buttonPushCounter++;
+      Serial.println("PIN7on");
+           // adc_value0 = analogRead(ANALOG_IN_PIN0);
+        Serial.print("V0=");
+  Serial.println(in_voltage0, 2);
+      Serial.print("number of button pushes: ");
+      Serial.println(buttonPushCounter);
+
+    } else {
+      // if the current state is LOW then the button went from on to off:
+      Serial.println("PIN7off");
+     // adc_value0 = analogRead(ANALOG_IN_PIN0);
+        Serial.print("V0=");
+  Serial.println(in_voltage0, 2);
+    }
+    // Delay a little bit to avoid bouncing
+    delay(50);
+  }
+  // save the current state as the last state, for next time through the loop
+  lastButtonState = buttonState;
+
+
+  // turns on the LED every four button pushes by checking the modulo of the
+  // button push counter. the modulo function gives you the remainder of the
+  // division of two numbers:
+  if (buttonPushCounter % 4 == 0) {
+    digitalWrite(ledPin, HIGH);
+  } else {
+    digitalWrite(ledPin, LOW);
+  }
+  delay(250);
+  }
